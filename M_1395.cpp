@@ -52,3 +52,28 @@ public:
         return result;
     }
 };
+
+//much better solution !!!
+//counting how may pairs of (decending*decending)+(inceasing*increasing)
+//Runtime: 4 ms, faster than 99.09% of C++ online submissions for Count Number of Teams.
+//Memory Usage: 7.7 MB, less than 100.00% of C++ online submissions for Count Number of Teams.
+ class Solution {
+public:
+    int numTeams(vector<int>& rating) {
+        int n=rating.size(),cnt=0;
+        if(n<3) return 0;
+        for(int i=1;i<n-1;i++){
+            int jsmaller=0,jlarger=0,ksmaller=0,klarger=0;
+            for(int j=0;j<i;j++){
+                if(rating[i]<rating[j]) jlarger++;
+                if(rating[i]>rating[j]) jsmaller++;
+            } 
+            for(int k=i+1;k<n;k++){
+                if(rating[i]<rating[k]) klarger++;
+                if(rating[i]>rating[k]) ksmaller++;
+            } 
+            cnt+=(jlarger*ksmaller)+(jsmaller*klarger);
+        } 
+        return cnt;
+    }
+};
