@@ -54,3 +54,23 @@ public:
     }
 };
 
+
+//using priority_queue<int,vector<int>,greater<int>> que;
+//Runtime: 28 ms, faster than 30.52% of C++ online submissions for Kth Largest Element in an Array.
+//Memory Usage: 10.4 MB, less than 7.57% of C++ online submissions for Kth Largest Element in an Array.
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        if(nums.size()==0 or k==0)
+            return -1;
+        priority_queue<int,vector<int>,greater<int>> que;
+        for(int i=0;i<k;i++){
+            que.push(nums[i]);
+        }
+        for(int i=k;i<nums.size();i++){
+            que.push(nums[i]);
+            que.pop();
+        }
+        return que.top();
+    }
+};
