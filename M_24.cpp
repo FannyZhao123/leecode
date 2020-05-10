@@ -21,6 +21,8 @@ Given 1->2->3->4, you should return the list as 2->1->4->3.
  * };
  */
 
+ //having trouble with pointers, need to do it again.
+
 class Solution {
 public:
     void printt (ListNode* head){
