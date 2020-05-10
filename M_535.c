@@ -1,3 +1,4 @@
+```c
 /*
 535. Encode and Decode TinyURL
 Note: This is a companion problem to the System Design problem: Design TinyURL.
@@ -8,10 +9,17 @@ Design the encode and decode methods for the TinyURL service. There is no restri
 
 char* encode(char* longUrl) {
     char *e = longUrl + strlen(longUrl) - 1, *tiny = calloc(1, 10000);
+
     //update e to the location of first char after "/"
     while (*e-- != '/');
     printf("%s \n", e+2);
+		//stdout:
+		//design-tinyurl
+
+		//cat "https://tinyurl.com/" with "design-tinyurl"
     strcat(strcpy(tiny, "https://tinyurl.com/"), e + 2);
+
+		//prepare for Decode function, put org to end of tiny. 
     strcpy(tiny + strlen(tiny) + 1, longUrl);
     printf("%s", tiny + strlen(tiny) + 1);
     return tiny;
@@ -25,9 +33,3 @@ char* decode(char* shortUrl) {
 // Your functions will be called as such:
 // char* s = encode(s);
 // decode(s);
-
-/*
-stdout:
-design-tinyurl 
-https://leetcode.com/problems/design-tinyurl
-*/
