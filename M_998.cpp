@@ -90,3 +90,22 @@ public:
         return constructMaximumBinaryTree(tree);
     }
 };
+
+
+//much better solution 
+//Runtime: 4 ms, faster than 89.10% of C++ online submissions for Maximum Binary Tree II.
+//Memory Usage: 10.8 MB, less than 100.00% of C++ online submissions for Maximum Binary Tree II.
+class Solution {
+public:
+    TreeNode* insertIntoMaxTree(TreeNode* root, int val) {
+        if (!root) return new TreeNode(val);
+        if (root->val < val) {
+            TreeNode* node = new TreeNode(val);
+            node->left = root;
+            return node;
+        } else {
+            root->right = insertIntoMaxTree(root->right, val);
+            return root;
+        }
+    }
+};
