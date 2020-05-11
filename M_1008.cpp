@@ -55,3 +55,42 @@ public:
         return tree;
     }
 };
+
+
+//much faster, using pointer
+//Runtime: 4 ms, faster than 85.27% of C++ online submissions for Construct Binary Search Tree from Preorder Traversal.
+//Memory Usage: 9 MB, less than 100.00% of C++ online submissions for Construct Binary Search Tree from Preorder Traversal.
+class Solution {
+public:
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        
+        if(preorder.empty())
+            return NULL;
+        
+        TreeNode * root = nullptr;
+        for(auto x: preorder){
+            if(root == nullptr){
+                root = new TreeNode(x);
+            }else{
+                TreeNode* temp = root,*prev=NULL;     
+                
+                while(temp!=NULL){
+                    prev = temp;
+                    if(temp->val > x){
+                        temp = temp->left;
+                    }else {
+                        temp =temp->right;
+                    }
+                }
+                
+                if(x>prev->val){
+                    prev -> right = new TreeNode(x);                    
+                }
+                else {
+                    prev->left = new TreeNode(x);
+                }
+            }
+        }
+        return root;
+    }
+};
