@@ -44,6 +44,31 @@ Each node's value is between [-10^5, 10^5].
  * };
  */
 
+//////***********///////
+//soooo samrt!!!
+//perfect!
+//Runtime: 212 ms, faster than 97.47% of C++ online submissions for All Elements in Two Binary Search Trees.
+//Memory Usage: 83.7 MB, less than 100.00% of C++ online submissions for All Elements in Two Binary Search Trees.
+class Solution {
+public:
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int> v;
+        v.reserve(10000);
+        in_order(root1, v);
+        int pos = v.size();
+        in_order(root2, v);
+        inplace_merge(v.begin(),v.begin()+pos, v.end());
+        return v;
+    }
+    void in_order(TreeNode* root, vector<int>& v){
+        if(!root) return ;
+        in_order(root->left,v);
+        v.push_back(root->val);
+        in_order(root->right,v);
+    }
+};
+
+
 //Runtime: 712 ms, faster than 5.12% of C++ online submissions for All Elements in Two Binary Search Trees.
 //Memory Usage: 424.7 MB, less than 100.00% of C++ online submissions for All Elements in Two Binary Search Trees.
 class Solution {
