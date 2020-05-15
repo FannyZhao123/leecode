@@ -78,15 +78,19 @@ public:
         {
             for(int cols=0; cols<col; cols++)
             {
-                int r = mat.size(), c = mat[0].size();
                 int r1 = max(0, rows-K), c1 = max(0, cols-K);
-                int r2 = min(r-1 , rows+K), c2 = min(c-1, cols+K);
+                int r2 = min(row-1 , rows+K), c2 = min(col-1, cols+K);
+                //加上最右下角所有的和
                 int ans = mat[r2][c2];
                 if(r1-1 >= 0 && c1-1 >= 0)
+                	//加上最左上角所有的和
+                	//此时第一象限被加了两遍
                     ans += mat[r1-1][c1-1];
                 if(r1-1 >= 0)
+                	//减掉第一象限，第二象限
                     ans -= mat[r1-1][c2];
                 if(c1-1 >= 0)
+                	//减掉第一象限第三象限，最后就只剩下第四象限
                     ans -= mat[r2][c1-1];
                 res[rows][cols] = ans;
             }
