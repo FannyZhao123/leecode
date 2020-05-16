@@ -23,6 +23,18 @@ Input: seq = "()(())()"
 Output: [0,0,0,1,1,0,1,1]
 */
 
+/*
+stupid question:
+following works
+
+Your input
+"((((((()))))))"
+Output
+[0,1,0,1,0,1,0,0,1,0,1,0,1,0]
+Expected
+[0,0,0,0,1,1,1,0,0,0,0,1,1,1]
+*/
+
 class Solution {
 public:
     vector<int> maxDepthAfterSplit(string seq) {
