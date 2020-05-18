@@ -82,3 +82,31 @@ public:
         return root;
     }
 };
+
+
+//faster solution
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if(!root) return NULL;
+        queue<Node*> q;
+        q.push(root);
+        while(!q.empty()){
+            int s = q.size();
+            while (s>0){
+                Node* temp = q.front();
+                q.pop();
+                if(s == 1) temp->next = NULL;
+                else{
+                    Node* temp2 = q.front();
+                    temp->next = temp2;
+                }
+                if (temp->left != NULL) q.push(temp->left);
+                if (temp->right!= NULL) q.push(temp->right);
+                s--;
+            }
+        }
+        return root;
+    }
+};
