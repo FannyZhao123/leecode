@@ -84,3 +84,61 @@ public:
         return root;
     }
 };
+
+
+//faster Solution
+//Runtime: 28 ms, faster than 64.44% of C++ online submissions for Populating Next Right Pointers in Each Node.
+//Memory Usage: 18.2 MB, less than 100.00% of C++ online submissions for Populating Next Right Pointers in Each Node.
+class Solution {
+public:
+    Node* rTree = NULL; 
+    /*
+        1. Pop all nodes and put in a vector<node>
+        2. Set node->next = right
+        3. Rebuild tree
+    */
+    Node* connect(Node* root) {
+        if(!root){
+            return root;
+        }
+        vector<vector<Node*>> ty; 
+        queue<Node*> q;
+        q.push(root); 
+        while(!q.empty()){
+            int n = q.size();
+            vector<Node*> temp; 
+            while(n > 0){
+                Node *t = q.front(); 
+                temp.push_back(t);
+                q.pop(); 
+                n--; 
+                if(t->left != NULL) q.push(t->left);
+                if(t->right != NULL) q.push(t->right);
+            }
+            ty.push_back(temp); 
+        }
+        // Now we have all nodes level wise
+        // Go to each level and set next pointer
+        for(int i = 0; i < ty.size(); i++){
+            if(ty[i].size() == 1){
+                ty[i][0]->next = NULL; 
+                continue;
+            } else {
+                for(int j = 0; j < ty[i].size()-1; j++){
+                    ty[i][j]->next = ty[i][j+1]; 
+                }
+                // Set the last element in this level to NULL
+                ty[i][ty[i].size()-1]->next = NULL;
+            }  
+        }
+        // for(int i = 0; i < ty.size(); i++){
+        //     for(int j = 0; j < ty[i].size(); j++){
+        //         cout << ty[i][j]->val << "->"; 
+        //         ty[i][j]->next == NULL ? cout << "NULL" : cout << ty[i][j]->next->val; 
+        //         cout << " ";
+        //     }
+        //     cout << endl;
+        // }
+        return root; 
+    }
+};
