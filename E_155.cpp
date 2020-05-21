@@ -66,4 +66,43 @@ public:
 };
 
 
+//using 1 vector
+//Runtime: 64 ms, faster than 16.75% of C++ online submissions for Min Stack.
+//Memory Usage: 16.2 MB, less than 100.00% of C++ online submissions for Min Stack.
+class MinStack {
+private:
+    vector<int> s;
+    int min = INT_MAX;
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        //nothing
+    }
+    
+    void push(int x) {
+        if (x <= min ||s.empty()){
+            min = x;
+        }
+        s.push_back(min);
+        s.push_back(x);
+    }
+    
+    void pop() {
+        s.pop_back();
+        s.pop_back();
+        if (!s.empty()){
+            min = s[s.size()-2];
+        }
+    }
+    
+    int top() {
+        return s.back(); 
+    }
+    
+    int getMin() {
+        return min;
+    }
+};
+
+
 
