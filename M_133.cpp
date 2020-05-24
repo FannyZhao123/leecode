@@ -48,6 +48,74 @@ There is no repeated edges and no self-loops in the graph.
 The Graph is connected and all nodes can be visited starting from the given node.
 */
 
+//Runtime: 12 ms, faster than 57.02% of C++ online submissions for Clone Graph.
+//Memory Usage: 10.1 MB, less than 100.00% of C++ online submissions for Clone Graph.
+//自己写的
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+
+class Solution {
+public:
+    void DFS (Node* node, Node* newnode, stack<Node*> s, unordered_map<int, Node*>& visited){
+        if (s.size() == 0) return;
+        Node* t = s.top();
+        Node* temp = visited[t->val];
+        s.pop();
+        for (auto neighbor: t->neighbors){
+            cout << neighbor->val << endl;
+            if (visited.count(neighbor->val) == 0){
+                Node* n = new Node(neighbor->val);
+                (temp->neighbors).push_back(n);
+                s.push(neighbor);
+                visited[neighbor->val] = n;
+                DFS(node, newnode, s, visited);
+            }
+            else{
+                (temp->neighbors).push_back(visited[neighbor->val]);
+            }
+        }
+        return;
+    }
+    
+    Node* cloneGraph(Node* node) {
+        if (!node) return NULL;
+        
+        stack<Node*> s;
+        s.push(node);
+        unordered_map<int, Node*> visited;;
+        
+        Node* newnode = new Node(node->val);
+        visited[node->val] = newnode;
+        
+        DFS(node, newnode, s, visited);
+        return newnode;
+    }
+};
+
+
+
+
 /*
 Solution1:
 DFS using stack not recursion.
