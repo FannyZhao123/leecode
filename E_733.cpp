@@ -43,3 +43,138 @@ public:
     }
 };
 
+
+//DFS
+struct Pixel {
+    int x;
+    int y;
+};
+
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        int target = image[sr][sc];
+        if (target != newColor) {
+            flood(&image, {sr, sc}, target, newColor);
+        }
+        return image;
+    }
+private:
+    void flood(vector<vector<int>>* image_ptr, const Pixel& pixel, int target, int newColor) {
+        auto& image = *image_ptr;
+        image[pixel.x][pixel.y] = newColor;
+
+        for (const auto& next : vector<Pixel>({
+            {pixel.x - 1, pixel.y},
+            {pixel.x + 1, pixel.y},
+            {pixel.x, pixel.y - 1},
+            {pixel.x, pixel.y + 1}
+        })) {
+            if (next.x >= 0 && next.x < image.size() &&
+                next.y >= 0 && next.y < image[next.x].size() &&
+                image[next.x][next.y] == target) {
+                flood(image_ptr, next, target, newColor);
+            }
+        }
+    }
+};
+
+//BFS
+struct Pixel {
+    int x;
+    int y;
+};
+
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        Pixel first_pixel = {sr, sc};
+        
+        int color = image[first_pixel.x][first_pixel.y];
+        queue<Pixel> to_process;
+        
+        if (color != newColor) {
+            to_process.emplace(first_pixel);
+        }
+
+        while (!empty(to_process)) {
+            auto pixel = to_process.front();
+            to_process.pop();
+            image[pixel.x][pixel.y] = newColor;
+
+            for (auto next : vector<Pixel>({
+                { pixel.x - 1, pixel.y },
+                { pixel.x + 1, pixel.y },
+                { pixel.x, pixel.y - 1 },
+                { pixel.x, pixel.y + 1 }
+            })) {
+                if (next.x >= 0 && next.x < image.size() &&
+                    next.y >= 0 && next.y < image[next.x].size() &&
+                    image[next.x][next.y] == color) {
+                    to_process.emplace(next);
+                }
+            }
+        }
+        
+        return image;
+    }
+};
+
+//
+
+class Solution 
+{
+public:
+   	 void fillImageRec(vector<vector<int>>& image,int x,int y,int origC,int newC){
+        if(image[x][y]==origC){
+            image[x][y] = newC;
+            //check left
+            if(y-1 >= 0 && image[x][y-1]==origC)
+                fillImageRec(image,x,y-1,origC,newC);
+            //check right
+            if((y+1 < image[0].size()) && image[x][y+1] == origC)
+                 fillImageRec(image,x,y+1,origC,newC);
+            //check up
+             if(x-1 >= 0 && image[x-1][y]==origC)
+                fillImageRec(image,x-1,y,origC,newC);
+            //check down
+            if((x+1 < image.size()) && image[x+1][y] == origC)
+                 fillImageRec(image,x+1,y,origC,newC);
+        }
+    }
+    void fillImageUsingQ(vector<vector<int>>& image, int sr, int sc, int newColor){
+        int O = image[sr][sc];
+        if(O!=newColor){
+            queue<pair<int,int>>q;
+            q.push(pair(sr,sc));
+            while(!q.empty()){
+                auto point = q.front();
+                q.pop();
+                int x = point.first;
+                int y = point.second;
+                image[x][y] = newColor;
+                //check left
+                if(y-1 >=0 && image[x][y-1] == O)
+                    q.push(pair(x,y-1));
+                //check right
+                if((y+1 < image[0].size()) && image[x][y+1] == O)
+                    q.push(pair(x,y+1));
+                //check up
+                if(x-1 >=0 && image[x-1][y] == O)
+                    q.push(pair(x-1,y));
+                //check down
+                if((x+1 < image.size()) && image[x+1][y] == O)
+                    q.push(pair(x+1,y));
+            }
+        } 
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        if(image[sr][sc] != newColor) //if this check is omitted it will run forever
+		{
+            fillImageUsingQ(image,sr,sc,newColor);  // iterative using queue
+            // fillImageRec(image,sr,sc,image[sr][sc],newColor); //recursive approach
+        }
+        return image; 
+    }
+};
+
