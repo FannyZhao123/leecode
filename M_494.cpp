@@ -22,6 +22,58 @@ The sum of elements in the given array will not exceed 1000.
 Your output answer is guaranteed to be fitted in a 32-bit integer.
 */
 
+/*
+my sloution, it will pass some short tests, but cannot pass the long input test
+Test cannot pass:
+[10,9,6,4,19,0,41,30,27,15,14,39,33,7,34,17,24,46,2,46]
+45
+Time Limit Exceeded
+*/
+class Solution {
+public:
+    vector<int> symbols = {-1, 1};
+    int count, sum = 0;
+    
+    void DFS (vector<int>& nums, int S, stack<int> s){
+        int d = nums.size();
+        if ((s.size()==d) && (sum != S)) return;
+        if ((s.size()==d) && (sum == S)){
+            count ++;
+            return;
+        }
+        for (auto sym:symbols){
+            if(s.empty()){
+                sum = nums[0]*sym;
+                s.push(nums[0]*sym);
+            }
+            else{
+                int curr = nums[s.size()]*sym;
+                sum += curr;
+                s.push(curr);
+            }
+            DFS(nums, S, s);
+            sum -= s.top();
+            s.pop();
+        }
+        return;
+    }
+    
+    int findTargetSumWays(vector<int>& nums, int S) {
+        stack<int> s;
+        vector<int> NUMS;
+        int zeros = 0;
+        for (int i = 0; i<nums.size(); i++){
+            if (nums[i] != 0) NUMS.push_back(nums[i]);
+            else zeros ++;
+        }
+        DFS(NUMS, S, s);
+        for (int j = 1; j <= zeros; j++){
+            count = 2*count;
+        }
+        return count;
+    }
+};
+
 //DP
 //Runtime: 12 ms, faster than 83.67% of C++ online submissions for Target Sum.
 //Memory Usage: 9.1 MB, less than 38.46% of C++ online submissions for Target Sum.
