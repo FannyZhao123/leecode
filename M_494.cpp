@@ -119,3 +119,22 @@ class Solution:
         
         self.memo[(index, curr_sum)] = positive + negative
         return self.memo[(index, curr_sum)]
+
+
+//in GO
+//Runtime: 60 ms, faster than 70.95% of Go online submissions for Target Sum.
+//Memory Usage: 6.4 MB, less than 100.00% of Go online submissions for Target Sum
+func findTargetSumWays(nums []int, S int) int {
+    n := len(nums)
+	dp := map[int]int{0: 1}
+	for i := 0; i < n; i++ {
+	    dp2 := make(map[int]int)
+		for currSum, currCount := range dp {
+		    for sign := -1; sign <= 1; sign += 2 {
+			    dp2[currSum+sign*nums[i]] += currCount
+			}
+		}
+		dp = dp2
+	}
+	return dp[S]
+}
